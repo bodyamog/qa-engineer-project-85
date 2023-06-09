@@ -1,1 +1,578 @@
+---
+- summary: |
+    Проверка регистрации нового пользователя
+  requirement: |
+    При удачном исходе новый пользователь будет зарегистрирован
+  prerequisites: |
+    Открыта страница регистрации https://codebattle.hexlet.io/users/new?locale=en&next=%2F
+  test-data: |
+    Nickname = Test345432 Email = Test345432@yandex.ru Password = 123456
+  steps:
+    - Ввести Nickname
+    - Ввести Email
+    - Ввести Password
+    - Ввести подтверждение пароля
+    - Нажать кнопку "Submit"
+  expected-result: |
+    Будет создан и авторизован новый пользователь, перенаправит на главную страницу
 
+- summary: |
+    Проверка регистрации пользователя через Github
+  requirement: |
+    При удачном исходе новый пользователь будет зарегистрирован через Github
+  prerequisites: |
+    Открыта страница регистрации https://codebattle.hexlet.io/users/new?locale=en&next=%2F
+    Пользователь зарегистрирован и авторизован в Github
+  test-data: |
+    empty
+  steps:
+    - Нажать кнопку "Sign in with Github"
+  expected-result: |
+    Будет создан и авторизован новый пользователь, перенаправит на главную страницу
+
+- summary: |
+    Проверка регистрации пользователя через Discord
+  requirement: |
+    При удачном исходе новый пользователь будет зарегистрирован через Discord
+  prerequisites: |
+    Открыта страница регистрации https://codebattle.hexlet.io/users/new?locale=en&next=%2F
+    Пользователь зарегистрирован и авторизован в Discord
+  test-data: |
+    empty
+  steps:
+    - Нажать кнопку "Sign in with Discord"
+    - Подтвердить авторизацию через Discord
+  expected-result: |
+    Будет создан и авторизован новый пользователь, перенаправит на главную страницу
+
+- summary: |
+    Проверка регистрации пользователя с незаполненными формами
+  requirement: |
+    Регистрация не должна выполняться с незаполненными формами  
+  prerequisites: |
+    Открыта страница регистрации https://codebattle.hexlet.io/users/new?locale=en&next=%2F
+  test-data: |
+    empty
+  steps:
+    - Нажать кнопку "Submit"
+  expected-result: |
+    Регистрация не выполнится
+
+- summary: |
+    Негативная проверка регистрации пользователя с никнеймом более 16 символов
+  requirement: |
+    Нельзя зарегистрироваться с никнеймом в котором больше 16 символов
+  prerequisites: |
+    Открыта страница регистрации https://codebattle.hexlet.io/users/new?locale=en&next=%2F
+  test-data: |
+    Nickname = любой >16 символов Email = rtyfgh@yandex.ru Password = 123456
+  steps:
+    - Ввести данные для регистрации
+    - Нажать кнопку "Submit"
+  expected-result: |
+    Регистрация не выполнится 
+
+- summary: |
+    Проверка регистрации пользователя с некорректной почтой
+  requirement: |
+    Регистрация с некорректной почтой невозможна 
+  prerequisites: |
+    Открыта страница регистрации https://codebattle.hexlet.io/users/new?locale=en&next=%2F
+  test-data: |
+    Nickname = koplokolp12 Email = toto12.ru Password = 123456
+  steps:
+    - Ввести данные для регистрации
+    - Нажать кнопку "Submit"
+  expected-result: |
+    Регистрация не выполнится
+
+- summary: |
+    Проверка регистрации пользователя с использованием неуникального никнейма
+  requirement: |
+    Регистрация с неуникальным никнеймом невозможна 
+  prerequisites: |
+    Открыта страница регистрации https://codebattle.hexlet.io/users/new?locale=en&next=%2F
+  test-data: |
+    Nickname = Test345432 Email = Test345432@yandex.ru Password = 123456
+  steps:
+    - Ввести данные для регистрации
+    - Нажать кнопку "Submit"
+  expected-result: |
+    Регистрация не выполнится
+
+- summary: |
+    Проверка авторизации пользователя с существующими почтой и паролем
+  requirement: |
+    При удачном исходе пользователь авторизуется на сайте
+  prerequisites: |
+    Открыта страница авторизации https://codebattle.hexlet.io/session/new?locale=en&next=%2F
+  test-data: |
+    Email = Test345432@yandex.ru Password = 123456
+  steps:
+    - Ввести Email
+    - Ввести Password
+    - Нажать кнопку "Submit"
+  expected-result: |
+    Пользователь авторизовался и перешел на главную страницу сайта
+
+- summary: |
+    Проверка функции восстановления пароля
+  requirement: |
+    При удачном исходе пользователь получит на свою почту инструкцию по восстановлению пароля
+  prerequisites: |
+    Открыта проверяемая почта Test345432@yandex.ru
+    Открыта страница авторизации https://codebattle.hexlet.io/session/new?locale=en&next=%2F
+  test-data: |
+    Email = Test345432@yandex.ru 
+  steps:
+    - Нажать кнопку "Forgot your password"
+    - Ввести email
+    - Нажать кнопку "Submit"
+  expected-result: |
+    На почту пришла инструкция по восстановлению пароля
+
+- summary: |
+    Проверка функции восстановления пароля с некорректной почтой
+  requirement: |
+    При попытке восстановления пароля c некорректной почтой появляется сообщение об ошибке
+  prerequisites: |
+    Открыта страница авторизации https://codebattle.hexlet.io/session/new?locale=en&next=%2F
+  test-data: |
+      email = toto12.ru 
+  steps:
+    - Нажать кнопку "Forgot your password"
+    - Ввести email
+    - Нажать кнопку "Submit"
+  expected-result: |
+    Восстановление пароля не выполнится, появится сообщение об ошибке
+
+- summary: |
+    Проверка восстановления пароля с незарегистрированной почтой
+  requirement: |
+    При попытке восстановления пароля c незарегистрированной почтой появится сообщение об отсутствии такой зарегистрированной почты
+  prerequisites: |
+    Открыта страница авторизации https://codebattle.hexlet.io/session/new?locale=en&next=%2F
+  test-data: |
+      email = tototo13@yandex.ru 
+  steps:
+    - Нажать кнопку "Forgot your password"
+    - Ввести email
+    - Нажать кнопку "Submit"
+  expected-result: |
+    Появляется сообщение, что данная почта отсутствует в списке зарегистрированных
+
+- summary: |
+    Проверка редиректа на главную страницу при нажатии на логотип сайта
+  requirement: |
+    При нажатии на логотип происходит редирект на главную страницу сайта
+  prerequisites: |
+    Пользователь авторизован
+    Открыта страница https://codebattle.hexlet.io/settings
+  test-data: |
+    Email = Test345432@yandex.ru Password = 123456
+  steps:
+    - Нажать на логотип сайта в шапке
+  expected-result: |
+    Пользователя перенаправит на главную страницу сайта
+
+- summary: |
+    Проверка открытия меню пользователя
+  requirement: |
+    При нажатии на никнейм пользователя появляется меню
+  prerequisites: |
+    Пользователь авторизован 
+    Открыта главная страница сайта https://codebattle.hexlet.io/
+  test-data: |
+    Email = Test345432@yandex.ru Password = 123456
+  steps:
+    - Нажать на никнейм пользователя в шапке сайта
+  expected-result: |
+    Открывается меню пользователя
+
+- summary: |
+    Проверка создания игры против другого игрока
+  requirement: |
+    При удачном исходе создастся новая игра игрок против игрока
+  prerequisites: |
+    Пользователь авторизован 
+    Открыта главная страница сайта https://codebattle.hexlet.io/
+  test-data: |
+    Email = Test345432@yandex.ru Password = 123456
+  steps:
+    - Нажать на кнопку "Create a game"
+    - Выбрать первый уровень сложности
+    - Нажать на кнопку "With other users"
+    - Выставить время игры 10 min
+    - Нажать кнопку "Create battle"
+  expected-result: |
+    Запустится новая игра, она будет отображаться в списке игр https://codebattle.hexlet.io/#lobby
+
+- summary: |
+    Проверка создания игры против бота
+  requirement: |
+    При удачном исходе создастся новая игра игрок против бота
+  prerequisites: |
+    Пользователь авторизован 
+    Открыта главная страница сайта https://codebattle.hexlet.io/
+  test-data: |
+    Email = Test345432@yandex.ru Password = 123456
+  steps:
+    - Нажать на кнопку "Create a game"
+    - Выбрать первый уровень сложности
+    - Нажать на кнопку "With a bot"
+    - Выставить время игры 10 min
+    - Нажать кнопку "Create battle"
+  expected-result: |
+    Запустится новая игра против бота
+
+- summary: |
+    Проверка создания игры против друга
+  requirement: |
+    При удачном исходе создастся новая игра против друга
+  prerequisites: |
+    Пользователь авторизован 
+    Открыта главная страница сайта https://codebattle.hexlet.io/
+  test-data: |
+    Email = Test345432@yandex.ru Password = 123456
+  steps:
+    - Нажать на кнопку "Create a game"
+    - Выбрать первый уровень сложности
+    - Нажать на кнопку "With a friend"
+    - В строке Choose opponent выбрать любого доступного игрока
+    - Выставить время игры 10 min
+    - Нажать кнопку "Create invite"
+  expected-result: |
+    Появится сообщение о отправленном приглашении другу
+
+- summary: |
+    Проверка функции принятия приглашения в игру
+  requirement: |
+    При удачном исходе приглашение будет принято и запустится игра
+  prerequisites: |
+    Пользователь авторизован 
+    Открыта главная страница сайта https://codebattle.hexlet.io/
+    Получено приглашение на игру от другого пользователя
+  test-data: |
+    Email = Test345432@yandex.ru Password = 123456
+  steps:
+    - Нажать на кнопку "Invites"
+    - Нажать кнопку "Accept"
+  expected-result: |
+    Игра запущена
+
+- summary: |
+    Проверка функции отказа от приглашения в игру
+  requirement: |
+    При удачном исходе полученное приглашение будет отклонено
+  prerequisites: |
+    Пользователь авторизован 
+    Открыта главная страница сайта https://codebattle.hexlet.io/
+    Получено приглашение на игру от другого пользователя
+  test-data: |
+    Email = Test345432@yandex.ru Password = 123456
+  steps:
+    - Нажать на кнопку "Invites"
+    - Нажать кнопку "Decline"
+  expected-result: |
+    Приглашение было отклонено
+
+- summary: |
+    Проверка возможности отправить сообщение в чат на главной странице сайта
+  requirement: |
+    При удачном исходе сообщение будет отправлено в чат
+  prerequisites: |
+    Пользователь авторизован
+    Открыта главная страница сайта  https://codebattle.hexlet.io/
+  test-data: |
+    Email = Test345432@yandex.ru Password = 123456
+  steps:
+    - Написать любое сообщение в строке чата
+    - Нажать кнопку "Send"
+  expected-result: |
+    Отправленное сообщение отображается в чате
+
+- summary: |
+    Проверка возможности создания нового турнира
+  requirement: |
+    При удачном исходе создастся новый турнир
+  prerequisites: |
+    Пользователь авторизован 
+    Открыта страница создания и настройки турнира https://codebattle.hexlet.io/tournaments
+  test-data: |
+    Email = Test345432@yandex.ru Password = 123456
+  steps:
+    - Выбрать время начала турнира
+    - Нажать кнопку "Create"
+  expected-result: |
+    Новый турнир создан, его видно на главной странице сайта
+
+- summary: |
+    Проверка возможности начать игру с вкладки Lobby
+  requirement: |
+    При удачном исходе пользователь сможет присоединиться к уже созданной игре
+  prerequisites: |
+    Пользователь авторизован 
+    Открыта страница со списком доступных лобби https://codebattle.hexlet.io/#lobby
+  test-data: |
+    Email = Test345432@yandex.ru Password = 123456
+  steps:
+    - Нажать кнопку "Fight" у любой из доступных игр
+  expected-result: |
+    Игра будет запущена
+
+- summary: |
+    Проверка возможности проверики кода в игре на правильность решения
+  requirement: |
+    Пользователь может проверить правильность решения в процессе игры
+  prerequisites: |
+    Пользователь авторизован
+    Открыта главная страница сайта https://codebattle.hexlet.io/
+    Создана игра
+  test-data: |
+    Email = Test345432@yandex.ru Password = 123456
+    Параметры игры: level = 1, game type = with a bot, time control = 8 min, chose task = rect_area
+    Решение задачи: 
+    const _ = require("lodash");
+    const R = require("rambda");
+    const solution = (width, length) => {
+    return width * length;
+    };
+    module.exports = solution;
+  steps:
+    - Выбрать язык программирования Node JS
+    - В редактор кода ввести решение задачи
+    - Нажать кнопку "Check solution" (Ctrl + Enter)
+  expected-result: |
+    Произошла проверка кода, получено сообщение о правильном решении задачи
+
+- summary: |
+    Проверка возможности удаления написанного кода во время игры
+  requirement: |
+    Пользователь может удалить написанный код во время игры неограниченное количество раз
+  prerequisites: |
+    Пользователь авторизован
+    Открыта главная страница сайта https://codebattle.hexlet.io/
+    Создана игра
+  test-data: |
+    Email = Test345432@yandex.ru Password = 123456
+    Параметры игры: level = 1, game type = with a bot, time control = 8 min, chose task = rect_area
+  steps:
+    - Нажать кнопку "Reset editor"
+  expected-result: |
+    Написанных пользователем код будет удален
+
+- summary: |
+    Проверка возможности смены языка программирования во время игры
+  requirement: |
+    Язык программирования можно изменять неограниченное количество раз во время игры
+  prerequisites: |
+    Пользователь авторизован
+    Открыта главная страница сайта https://codebattle.hexlet.io/
+    Создана игра
+  test-data: |
+    Email = Test345432@yandex.ru Password = 123456
+    Параметры игры: level = 1, game type = with a bot, time control = 8 min, chose task = rect_area
+  steps:
+    - В панели выбора языка изменить язык на любой другой
+  expected-result: |
+    Происходит изменение языка программирования на экране редактора кода
+
+- summary: |
+    Проверка возможности сдаться во время игры
+  requirement: |
+    Пользователь имеет возможность сдаться во время игры
+  prerequisites: |
+    Пользователь авторизован
+    Открыта главная страница сайта https://codebattle.hexlet.io/
+    Создана игра
+  test-data: |
+    Email = Test345432@yandex.ru Password = 123456
+    Параметры игры: level = 1, game type = with a bot, time control = 8 min, chose task = rect_area
+  steps:
+    - Нажать кнопку "Give Up"
+  expected-result: |
+    Игра завершится, появится сообщение о проигрыше
+
+- summary: |
+    Проверка возможности писать в чат во время игры
+  requirement: |
+    Пользователь имеет возможность писать во внутриигровой чат
+  prerequisites: |
+    Пользователь авторизован
+    Открыта главная страница сайта https://codebattle.hexlet.io/
+    Создана игра
+  test-data: |
+    Email = Test345432@yandex.ru Password = 123456
+    Параметры игры: level = 1, game type = with a bot, time control = 8 min, chose task = rect_area
+  steps:
+    - Отправить любое сообщение во внутриигровом чате
+  expected-result: |
+    Сообщение отображается в чате
+
+- summary: |
+    Проверка возможности просмотра игры в качестве зрителя
+  requirement: |
+    Пользователь может просматривать игру в качестве зрителя
+  prerequisites: |
+    Пользователь авторизован
+    Открыта страница со списком лобби https://codebattle.hexlet.io/#lobby
+    В списке присутствует игра, которую можно смотреть
+  test-data: |
+    Email = Test345432@yandex.ru Password = 123456
+  steps:
+    - Нажать кнопкау "Show"
+  expected-result: |
+    Пользователь присоединяется к игре в качестве зрителя
+
+- summary: |
+    Проверка возможности просмотра статистики других пользователей
+  requirement: |
+    При нажатии на никнейм другого пользователя, откроется страница с его статистикой
+  prerequisites: |
+    Пользователь авторизован 
+    Открыта главная страница сайта https://codebattle.hexlet.io
+  test-data: |
+    Email = Test345432@yandex.ru Password = 123456
+  steps:
+    - Нажать на никнейм любого пользователя
+  expected-result: |
+    Откроется страница статистики пользователя - ранг, кол-во игр, история игр
+
+- summary: |
+    Проверка возможности просматривать завершенные игры других пользователей
+  requirement: |
+    При удачном исходе пользователь сможет посмотреть сыграную игру другого пользователя
+  prerequisites: |
+    Пользователь авторизован 
+    Открыта главная страница сайта https://codebattle.hexlet.io
+  test-data: |
+    Email = Test345432@yandex.ru Password = 123456
+  steps:
+    - Нажать на никнейм любого пользователя
+    - Перейти на вкладку Completed games
+    - Нажать кнопку "Show" напротив любой игры
+  expected-result: |
+    Запустится просмотр игры
+
+- summary: |
+    Проверка возможности создания новой игровой задачи
+  requirement: |
+    Пользователь может создать новую игровую задачу
+  prerequisites: |
+    Пользователь авторизован
+    Открыта страница задач  https://codebattle.hexlet.io/tasks
+  test-data: |
+    Email = Test345432@yandex.ru Password = 123456
+  steps:
+    - Нажать кнопку "Create new task"
+    - Заполнить формы валидными данными
+    - Нажать кнопку "Save"
+  expected-result: |
+    Создана новая игровая задача
+
+- summary: |
+    Проверка возможности создания новой игровой задачи с незаполненными формами
+  requirement: |
+    Нельзя создать новую задачу, если не заполнены основные поля. Появится сообщение о невозможности создания новой задачи с пустыми полями
+  prerequisites: |
+    Пользователь авторизован
+    Открыта страница создания новой задачи https://codebattle.hexlet.io/tasks/new
+  test-data: |
+    Email = Test345432@yandex.ru Password = 123456
+  steps:
+    - Нажать кнопку "Save"
+  expected-result: |
+    Создание новой задачи невозможно с незаполненными формами
+
+- summary: |
+    Проверка возможности сыграть пробную игру неавторизованному пользователю
+  requirement: |
+    Неавторизованный пользователь может пройти пробную игру под условным именем John Doe
+  prerequisites: |
+    Пользователь не авторизован 
+    Открыта главная страница сайта https://codebattle.hexlet.io/
+  test-data: |
+    empty
+  steps:
+    - Нажать на кнопку "Try simple battle"
+  expected-result: |
+    Запускается новая игра против бота
+
+- summary: |
+    Проверка отображения сайта на мобильных устройствах
+  requirement: |
+    Содержимое сайта должно корректно отображаться на мобильных устройствах
+  prerequisites: |
+    Пользователь авторизован
+    Открыта главная страница сайта  https://codebattle.hexlet.io
+  test-data: |
+    Email = Test345432@yandex.ru Password = 123456
+  steps:
+    - С помощью Devtools проверить отображение сайта на стандартных разрешениях мобильных устройств (375, 500, 600, 800)
+    - Перейти по основным вкладкам и страницам 
+    - Создать новую игру против бота
+    - Завершить игру
+  expected-result: |
+    Сайт корректно отображается на мобильных устройствах
+
+- summary: |
+    Проверка работы сайта в браузере Chrome последней версии
+  requirement: |
+    Содержимое сайта должно корректно отображаться в браузере Chrome последней версий
+  prerequisites: |
+    Пользователь авторизован
+    Открыта главная страница  https://codebattle.hexlet.io в браузере Chrome последней версий
+  test-data: |
+    Email = Test345432@yandex.ru Password = 123456
+  steps:
+    - Перейти по основным вкладкам и страницам 
+    - Создать новую игру против бота
+    - Завершить игру
+  expected-result: |
+    Сайт корректно отображается в браузерe Chrome последней версий
+
+- summary: |
+    Проверка работы сайта в браузере Opera последней версии
+  requirement: |
+    Содержимое сайта должно корректно отображаться в браузере Opera последней версий
+  prerequisites: |
+    Пользователь авторизован
+    Открыта главная страница  https://codebattle.hexlet.io в браузере Opera последней версий
+  test-data: |
+    Email = Test345432@yandex.ru Password = 123456
+  steps:
+    - Перейти по основным вкладкам и страницам 
+    - Создать новую игру против бота
+    - Завершить игру
+  expected-result: |
+    Сайт корректно отображается в браузерe Opera последней версий
+
+- summary: |
+    Проверка работы сайта в браузере Firefox последней версии
+  requirement: |
+    Содержимое сайта должно корректно отображаться в браузере Firefox последней версий
+  prerequisites: |
+    Пользователь авторизован
+    Открыта главная страница  https://codebattle.hexlet.io в браузере Firefox последней версий
+  test-data: |
+    Email = Test345432@yandex.ru Password = 123456
+  steps:
+    - Перейти по основным вкладкам и страницам 
+    - Создать новую игру против бота
+    - Завершить игру
+  expected-result: |
+    Сайт корректно отображается в браузерe Firefox последней версий
+
+- summary: |
+    Проверка возможности отправки пустого сообщения в чат
+  requirement: |
+    Невозможно отправить пустое сообщение в чат
+  prerequisites: |
+    Пользователь авторизован
+    Открыта главная страница сайта  https://codebattle.hexlet.io
+  test-data: |
+    Email = Test345432@yandex.ru Password = 123456
+  steps:
+    - Нажать кнопку "Send" в строке чата
+  expected-result: |
+    Пустое сообщение не отправляется

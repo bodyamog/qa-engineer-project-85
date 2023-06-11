@@ -590,3 +590,60 @@
     - Нажать кнопку "Send" в строке чата
   expected-result: |
     Пустое сообщение не отправляется
+
+- summary: |
+    Проверка возможности авторизации пользователя с вводом невалидного пароля
+  requirement: |
+    При попытке авторизации с невалидным паролем авторизация не возможна. Появляется сообщене об ошибке
+  prerequisites:
+    Открыта страница авторизации https://codebattle.hexlet.io/session/new?locale=en&next=%2F
+  test-data: |
+    Email = Test345432@yandex.ru Password = 654321
+  steps:
+    - Ввести email
+    - Ввести password
+    - Нажать кнопку "Submit"
+  expected-result: |
+    Авторизация не проходит и появляется сообщение об ошибке
+
+- summary: |
+    Проверка отображения созданных турниров во вкладке Tournaments
+  requirement: |
+    При удачном исходе при нажатии на вкладку Tournaments отобразится список турниров
+  prerequisites:
+    Пользователь авторизован
+    Открыта главная страница https://codebattle.hexlet.io
+    Создан турнир
+  test-data: |
+    Email = Test345432@yandex.ru Password = 123456
+  steps:
+    - Нажать на вкладку "Tournaments"
+  expected-result: |
+    Открывается список доступных турниров
+
+- summary: |
+    Проверка отображения завершенных игр во вкладке Completed Games
+  requirement: |
+    При удачном исходе при нажатии на вкладку Completed Games отобразится список завершенных игр
+  prerequisites:
+    Пользователь авторизован
+    Открыта главная страница https://codebattle.hexlet.io
+  test-data: |
+    Email = Test345432@yandex.ru Password = 123456
+  steps:
+    - Нажать на вкладку "Completed Games"
+  expected-result: |
+    Открывается список завершенных игр
+
+- summary: |
+    Проверка возможности открыть топ лист по всем пользователям сайта
+  requirement: |
+    При удачном исходе откроется топ лист по всем пользователям сайта
+  prerequisites:
+    Открыта главная страница https://codebattle.hexlet.io/#lobby
+  test-data: |
+    Email = Test345432@yandex.ru Password = 123456
+  steps:
+    - Нажать кнопку "TOP list"
+  expected-result: |
+    Откроется страница со списком всех пользователей и их статистикой
